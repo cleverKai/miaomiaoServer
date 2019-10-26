@@ -101,7 +101,27 @@ var getUser = async (req,res,next)=>{
 };
 
 var findPassword = async (req,res,next)=>{
-    
+    var { email , password , verify } = req.body;
+    if( email === req.session.email && verify === req.session.verify ){
+        var result = await UserModel.updatePassword( email, password );
+
+        if(result){
+            res.send({
+                msg : '修改密码成功',
+                status : 0
+            });
+        }else{
+            res.send({
+                msg : '修改密码失败',
+                status : -1
+            });
+        }
+    }else{
+        res.send({
+            msg : '验证码错误',
+            status : -1,
+        });
+    }
 };
 
 module.exports = {

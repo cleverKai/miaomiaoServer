@@ -24,8 +24,17 @@ var  save = (data)=>{
 var findLogin  =  (data)=>{
     return UserModel.findOne(data);
 };
-
+var updatePassword = ( email , password)=>{
+    return UserModel.update( {email} , { $set : { password } } )
+           .then(()=>{
+               return true;
+           })
+           .catch(()=>{
+               return false;
+           });
+};
 module.exports = {
     save,
-    findLogin
+    findLogin,
+    updatePassword
 }
